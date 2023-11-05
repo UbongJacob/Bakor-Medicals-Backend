@@ -21,6 +21,7 @@ export const login = async (req: Request, res: Response) => {
   // CHECK IF doctor EXISTS ALREADY
   const doctor = await PRISMA_CLIENT.doctor.findUnique({
     where: { email: email.toLowerCase().trim() },
+    include: { specialty: true },
   });
   if (!doctor)
     return res.status(400).send(message(false, "Invalid email or password."));
@@ -34,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
 
   res
     .header(APP_HEADER_TOKEN, generateAuthToken({ id: data.id }))
-    .status(201)
+    .status(200)
     .send(message(true, "Login success", data));
 };
 
@@ -83,6 +84,7 @@ export const register = async (req: Request, res: Response) => {
         },
       },
     },
+    include: { specialty: true },
   });
 
   const data = _.omit(doctor, ["password"]);
