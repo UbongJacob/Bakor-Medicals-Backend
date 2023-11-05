@@ -9,3 +9,41 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Patient {
+  id          String   @id @default(uuid())
+  email       String   @unique @db.VarChar(255)
+  phoneNumber String   @unique @db.VarChar(255)
+  password    String   @db.VarChar(1024)
+  firstName   String   @db.VarChar(255)
+  lastName    String   @db.VarChar(255)
+  address     String?  @db.VarChar(1024)
+  gender      String?  @db.VarChar(255)
+  imageURL    String?  @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Doctor {
+  id          String    @id @default(uuid())
+  email       String    @unique @db.VarChar(255)
+  phoneNumber String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(1024)
+  firstName   String    @db.VarChar(255)
+  lastName    String    @db.VarChar(255)
+  specialty   Specialty @relation(fields: [specialtyId], references: [id])
+  specialtyId String
+  description String?   @db.VarChar(1024)
+  gender      String?   @db.VarChar(255)
+  imageURL    String?   @db.VarChar(255)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isAvailable Boolean   @default(true)
+}
+
+model Specialty {
+  id       String   @id @default(uuid())
+  title    String   @db.VarChar(255)
+  subtitle String?  @db.VarChar(255)
+  doctor   Doctor[]
+}

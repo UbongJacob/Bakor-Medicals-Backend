@@ -1,0 +1,16 @@
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2002',
+  clientVersion: '5.5.2',
+  meta: { target: 'Patient_email_key' },
+  level: 'error',
+  timestamp: '2023-11-05T18:37:11.609Z'
+}
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2002',
+  clientVersion: '5.5.2',
+  meta: { target: 'Patient_phoneNumber_key' },
+  level: 'error',
+  timestamp: '2023-11-05T18:37:39.313Z'
+}
