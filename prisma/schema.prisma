@@ -11,17 +11,18 @@ datasource db {
 }
 
 model Patient {
-  id          String   @id @default(uuid())
-  email       String   @unique @db.VarChar(255)
-  phoneNumber String   @unique @db.VarChar(255)
-  password    String   @db.VarChar(1024)
-  firstName   String   @db.VarChar(255)
-  lastName    String   @db.VarChar(255)
-  address     String?  @db.VarChar(1024)
-  gender      String?  @db.VarChar(255)
-  imageURL    String?  @db.VarChar(255)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(uuid())
+  email       String    @unique @db.VarChar(255)
+  phoneNumber String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(1024)
+  firstName   String    @db.VarChar(255)
+  lastName    String    @db.VarChar(255)
+  address     String?   @db.VarChar(1024)
+  gender      String?   @db.VarChar(255)
+  imageURL    String?   @db.VarChar(255)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
 }
 
 model Doctor {
@@ -39,6 +40,7 @@ model Doctor {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   isAvailable Boolean   @default(true)
+  bookings    Booking[]
 }
 
 model Specialty {
@@ -46,4 +48,22 @@ model Specialty {
   title    String   @db.VarChar(255)
   subtitle String?  @db.VarChar(255)
   doctor   Doctor[]
+}
+
+model Booking {
+  id                String   @id @default(uuid())
+  scheduledDateTime DateTime
+  status            Status   @default(PENDING)
+  doctor            Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId          String
+  patient           Patient  @relation(fields: [patientId], references: [id])
+  patientId         String
+  doctorNotes       String?  @db.VarChar(1024)
+  patientNotes      String?  @db.VarChar(1024)
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
 }

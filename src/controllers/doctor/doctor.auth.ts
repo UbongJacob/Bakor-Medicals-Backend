@@ -21,7 +21,7 @@ export const login = async (req: Request, res: Response) => {
   // CHECK IF doctor EXISTS ALREADY
   const doctor = await PRISMA_CLIENT.doctor.findUnique({
     where: { email: email.toLowerCase().trim() },
-    include: { specialty: true },
+    include: { specialty: true, bookings: true },
   });
   if (!doctor)
     return res.status(400).send(message(false, "Invalid email or password."));
