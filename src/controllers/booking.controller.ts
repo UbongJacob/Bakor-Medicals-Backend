@@ -8,8 +8,13 @@ import { message } from "../middlewares/utility";
 export const bookAppointment = async (req: Request, res: Response) => {
   // VALIDATE REQUEST
   const { error } = validateReq(req.body);
+
   if (error)
     return res.status(400).send(message(false, error.details[0].message));
+
+   const isDate = isValidDate(req.body?.scheduledDateTime)
+   if (!isDate)
+    return res.status(400).send(message(false, 'Invalid date.'));
 
   const { doctorId, patientId, scheduledDateTime } = req.body as Booking;
 
@@ -28,8 +33,12 @@ export const getBookingByDoctorOrPatientId = async (
   if (!id)
     return res.status(400).send(message(false, "Invalid booking id provided."));
 
-  const booking = await PRISMA_CLIENT.booking.findFirst({
+  const booking = await PRISMA_CLIENT.booking.findMany({
     where: { OR: [{ patientId: id }, { doctorId: id }] },
+    include:{patient: true},
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
   if (!booking) {
     return res
@@ -54,9 +63,14 @@ function validateReq(details: Booking) {
   const data = {
     doctorId: Joi.string().min(10).max(200).required(),
     patientId: Joi.string().min(10).max(200).required(),
-    scheduledDateTime: Joi.string().min(3).max(200).required(),
+    scheduledDateTime: Joi.date().required(),
   };
 
   const schema = Joi.object<Booking>(data);
   return schema.validate(details);
+}
+
+function isValidDate(input:string) {
+  const inputDate = new Date(input);
+  return !isNaN(inputDate?.getTime());
 }

@@ -33,3 +33,34 @@
   level: 'error',
   timestamp: '2023-11-07T04:17:44.635Z'
 }
+{
+  name: 'PrismaClientInitializationError',
+  clientVersion: '5.5.2',
+  errorCode: undefined,
+  level: 'error',
+  timestamp: '2023-11-08T00:55:13.047Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-08T01:22:31.026Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-08T01:23:07.523Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-08T01:42:49.535Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-08T01:44:11.073Z'
+}
