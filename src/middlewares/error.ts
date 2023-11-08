@@ -5,6 +5,7 @@ import { winstonLogger } from "../startup/logging";
 
 const error = (err: any, req: Request, res: Response, next: NextFunction) => {
   // LOG THE EXCEPTION
+  console.log(err);
   winstonLogger().error(err);
 
   res.status(500).send({

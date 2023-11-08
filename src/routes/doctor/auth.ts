@@ -1,14 +1,22 @@
 import { Router } from "express";
 
-import _ from "lodash";
 import { asyncMiddleware } from "../../middlewares/utility";
-import { login, register } from "../../controllers/doctor/doctor.auth";
+import {
+  createManyDoctors,
+  getAllDoctors,
+  login,
+  register,
+} from "../../controllers/doctor/doctor.auth";
 
 const router = Router();
 
 // LOGIN USER
-router.post("/login", asyncMiddleware(login));
+router.post("/auth/login", asyncMiddleware(login));
 
-router.post("/register", asyncMiddleware(register));
+router.post("/auth/register", asyncMiddleware(register));
 
-export { router as doctorAuth };
+router.get("/auth/create-many", asyncMiddleware(createManyDoctors));
+
+router.get("/all", asyncMiddleware(getAllDoctors));
+
+export { router as doctorRouter };

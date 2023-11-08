@@ -9,6 +9,7 @@ import config from "config";
 import { message } from "../../middlewares/utility";
 import { PRISMA_CLIENT } from "../../startup/prisma";
 import { APP_HEADER_TOKEN, JWT_PRIVATE_KEY } from "../../startup/config";
+import doctorsDummyData from "../../data/doctorsDummyData";
 
 export const login = async (req: Request, res: Response) => {
   // VALIDATE REQUEST
@@ -93,6 +94,44 @@ export const register = async (req: Request, res: Response) => {
     .status(201)
     .send(message(true, "Registration success.", data));
 };
+
+export const createManyDoctors = async (req: Request, res: Response) => {
+  const salt = await bcrypt.genSalt(10);
+
+  doctorsDummyData.forEach(async (obj) => {
+    await PRISMA_CLIENT.doctor.create({
+      data: {
+        email: obj.email.toLowerCase().trim(),
+        firstName: obj.firstName.trim(),
+        lastName: obj.lastName.trim(),
+        phoneNumber: obj.phoneNumber.trim(),
+        isAvailable: obj.isAvailable,
+        gender: obj.gender,
+        description: obj.description,
+        password: await bcrypt.hash(obj.password.trim(), salt),
+        specialty: {
+          create: {
+            title: obj.specialization.trim(),
+          },
+        },
+      },
+      include: { specialty: true },
+    });
+  });
+  res.send("Done");
+};
+
+export const getAllDoctors = async (req: Request, res: Response) => {
+  const doctors = await PRISMA_CLIENT.doctor.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: { specialty: true },
+  });
+  const formattedDoctors = doctors.map((data) => _.omit(data, ["password"]));
+  res.send(message(true, "All doctors.", formattedDoctors));
+};
+
 // UTILITIES
 function validateReq(doctor: Doctor) {
   const data = {

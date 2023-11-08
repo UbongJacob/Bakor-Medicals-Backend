@@ -14,3 +14,22 @@
   level: 'error',
   timestamp: '2023-11-05T18:37:39.313Z'
 }
+{
+  name: 'PrismaClientInitializationError',
+  clientVersion: '5.5.2',
+  errorCode: undefined,
+  level: 'error',
+  timestamp: '2023-11-06T16:48:52.764Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-07T04:16:23.378Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.5.2',
+  level: 'error',
+  timestamp: '2023-11-07T04:17:44.635Z'
+}

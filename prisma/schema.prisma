@@ -60,6 +60,8 @@ model Booking {
   patientId         String
   doctorNotes       String?  @db.VarChar(1024)
   patientNotes      String?  @db.VarChar(1024)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 enum Status {

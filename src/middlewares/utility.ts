@@ -11,6 +11,7 @@ export const asyncMiddleware = (
     try {
       await handler(req, res);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
@@ -21,4 +22,11 @@ export const message = (
   message: string,
   data?: [] | {},
   metadata?: MetaData
-): GenericAPIResponse => ({ message, status, data, metadata });
+): GenericAPIResponse => ({
+  message: formatMessage(message),
+  status,
+  data,
+  metadata,
+});
+
+const formatMessage = (message: string) => message.replace(/"/g, "");
